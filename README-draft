@@ -1,0 +1,7 @@
+# Send Agentless Email Notification upon Outbound Message Delivery Failed
+
+> View the full [Genesys Cloud Web Messaging Triage Bot Blueprint](https://developer.mypurecloud.com/blueprints/web-messaging-triage-bot-blueprint/ "Goes to the Web Messaging Triage Bot Blueprint") in the Genesys Cloud Developer Center.
+
+This Genesys Cloud Developer Blueprint provides instructions for deploying a solution which enables businesses to notify their end-users (customers) about undelivered messages sent from the brand (Agent or Bot), while the end-user was not online. You can deploy all the components used in this solution with the Terraform Genesys Cloud CX as Code provider.
+
+![Messaging triage bot](blueprint/images/overview.png "Messaging triage bot")

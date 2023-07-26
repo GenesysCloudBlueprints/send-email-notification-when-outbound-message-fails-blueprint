@@ -1,0 +1,148 @@
+workflow:
+  name: "{{flow_name}}"
+  description: For blueprint send email notificaiton on failed outbound message
+  division: {{division}}
+  startUpRef: "/workflow/states/state[Initial State_10]"
+  defaultLanguage: {{language}}
+  supportedLanguages:
+    en-us:
+      none: true
+  variables:
+    - stringVariable:
+        name: Flow.conversationId
+        initialValue:
+          noValue: true
+        isInput: true
+        isOutput: false
+    - stringVariable:
+        name: Flow.externalContactId
+        initialValue:
+          noValue: true
+        isInput: true
+        isOutput: false
+  settingsErrorHandling:
+    errorHandling:
+      endWorkflow:
+        none: true
+  states:
+    - state:
+        name: Initial State
+        refId: Initial State_10
+        variables:
+          - externalContactVariable:
+              name: State.externalContactResult
+              initialValue:
+                noValue: true
+              isInput: false
+              isOutput: false
+        actions:
+          - callData:
+              name: Get Failed Delivery Messages
+              timeout:
+                lit:
+                  minutes: 1
+              category:
+                {{gc_data_actions_integration}}:
+                  dataAction:
+                    {{get_failed_messages_action}}:
+                      inputs:
+                        CONVERSATION_ID:
+                          exp: Flow.conversationId
+                      successOutputs:
+                        FAILED_DELIVERY:
+                          noValue: true
+                      failureOutputs:
+                        errorCode:
+                          noValue: true
+                        status:
+                          noValue: true
+                        correlationId:
+                          noValue: true
+                        entityId:
+                          noValue: true
+                        entityName:
+                          noValue: true
+                        userMessage:
+                          noValue: true
+                        userParamsMessage:
+                          noValue: true
+                        userParams.key:
+                          noValue: true
+                        userParams.value:
+                          noValue: true
+                        details.errorCode:
+                          noValue: true
+                        details.fieldName:
+                          noValue: true
+                        details.entityId:
+                          noValue: true
+                        details.entityName:
+                          noValue: true
+              outputs:
+                success:
+                  actions:
+                    - getExternalContact:
+                        name: Get External Contact
+                        externalId:
+                          exp: Flow.externalContactId
+                        externalResult:
+                          var: State.externalContactResult
+                        outputs:
+                          found:
+                            actions:
+                              - callData:
+                                  name: Send Agentless Email
+                                  timeout:
+                                    lit:
+                                      minutes: 1
+                                  category:
+                                    {{gc_data_actions_integration}}:
+                                      dataAction:
+                                        {{send_agentless_email_action}}:
+                                          inputs:
+                                            FROM_EMAIL:
+                                              exp: "\"{{from_email}}\""
+                                            TO_EMAIL:
+                                              exp: "State.externalContactResult.{{external_contact_email_type}}"
+                                            SUBJECT:
+                                              exp: "\"{{email_subject}}\""
+                                            BODY:
+                                              exp: "\"{{email_body}}\""
+                                            SENDER_TYPE:
+                                              exp: "\"Outbound\""
+                                          successOutputs:
+                                            ID:
+                                              noValue: true
+                                            CONVERSATION_ID:
+                                              noValue: true
+                                          failureOutputs:
+                                            errorCode:
+                                              noValue: true
+                                            status:
+                                              noValue: true
+                                            correlationId:
+                                              noValue: true
+                                            entityId:
+                                              noValue: true
+                                            entityName:
+                                              noValue: true
+                                            userMessage:
+                                              noValue: true
+                                            userParamsMessage:
+                                              noValue: true
+                                            userParams.key:
+                                              noValue: true
+                                            userParams.value:
+                                              noValue: true
+                                            details.errorCode:
+                                              noValue: true
+                                            details.fieldName:
+                                              noValue: true
+                                            details.entityId:
+                                              noValue: true
+                                            details.entityName:
+                                              noValue: true
+          - endWorkflow:
+              name: End Workflow
+              exitReason:
+                noValue: true
