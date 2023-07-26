@@ -40,7 +40,11 @@ A Genesys Cloud agent (or bot) is interacting with an end-user using Web Messagi
 
 * **Genesys Cloud CX** - A suite of Genesys Cloud services for enterprise-grade communications, collaboration, and contact center management. In this solution, you use an Architect workflow, a Genesys Cloud integration, an Email configuration, a Web Messaging deployment, and a Process Automation Trigger.
 * **Web messaging and Messenger** - The Genesys Cloud messaging platform that enables asynchronous conversations and a unified agent and supervisor experience across all Genesys Cloud messaging channels. In this solution, it is required to already have an existing configuration for Web Messaging.
-* **Architect flows** - A flow in Architect, a drag and drop web-based design tool, dictates how Genesys Cloud handles inbound or outbound interactions. In this solution, a workflow is designed to invoke the data actions required for sending an agentless email notification.
+* **Genesys Cloud Data Actions** - The Genesys Cloud Data Actions integration allows users to invoke the public API through the Genesys Cloud org. In this solution, there will be 2 data actions which will be called inside an Architect Workflow:
+   1. Get Failed Delivery Messages - this Data Action will call the Conversations API and determine if a conversation has any messages with `messageStatus` property equal to `delivery-failed`. This means that a message was sent but was not received by the end-user.
+   2. Send Outbound Email - this Data Action will send an agentless notification email to the provided email address.
+
+* **Architect flows** - A flow in Architect, a drag and drop web-based design tool, dictates how Genesys Cloud handles inbound or outbound interactions. In this solution, a workflow is designed to invoke the data actions required for sending an agentless email notification. This workflow is executed by a Process Automation Trigger.
 * **Process Automation Triggers** - A feature which allows customers to configure a reaction to specific events that occur within Genesys Cloud. In this solution, we will trigger a workflow everytime a customer has disconnected from a Web Messaging interaction.
 * **CX as Code** - A Genesys Cloud Terraform provider that provides an interface for declaring core Genesys Cloud objects.
 
@@ -173,6 +177,7 @@ After the `terraform apply --auto-approve` command completes, you should see the
 ## Additional resources
 
 * [About web messaging](https://help.mypurecloud.com/articles/about-web-messaging/ "Opens the About Web Messaging page")
+* [About agentless email notifications](https://help.mypurecloud.com/articles/agentless-email-notifications/ "Open the Agentless email notifications page")
 * [About the Genesys Cloud data action integrations](https://help.mypurecloud.com/articles/about-the-data-actions-integrations/ "Opens the About the Genesys Cloud data action integrations page")
-* [About Genesys Dialog Engine Bot Flows](https://help.mypurecloud.com/articles/about-architect-dialog-engine-bot-flows/ "Opens the About Genesys Dialog Engine Bot Flows page")
-* [web-messaging-triage-bot-blueprint repository](https://github.com/GenesysCloudBlueprints/web-messaging-triage-bot-blueprint "Opens the web-messaging-triage-bot-blueprint repository in GitHub")
+* [About Process Automation](https://developer.genesys.cloud/platform/process-automation/ "Opens the Process Automation overview page")
+* [send-email-notification-when-outbound-message-fails-blueprint](https://github.com/GenesysCloudBlueprints/send-email-notification-when-outbound-message-fails-blueprint  "Opens the send-email-notification-when-outbound-message-fails-blueprint  repository in GitHub")
