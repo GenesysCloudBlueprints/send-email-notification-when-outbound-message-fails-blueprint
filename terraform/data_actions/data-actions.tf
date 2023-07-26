@@ -94,7 +94,7 @@ resource "genesyscloud_integration_action" "send_agentless_email_action" {
   config_request {
     request_url_template = "/api/v2/conversations/emails/agentless"
     request_type         = "POST"
-    request_template     = "{\"senderType\": \"$${input.SENDER_TYPE}\", \"fromAddress\" : {\"email\": \"$${input.FROM_EMAIL}\"}, \"toAddresses\" : [{\"email\": \"$${input.TO_EMAIL}\"}], \"subject\" : \"$${input.SUBJECT}\", \"textBody\" : \"$${input.BODY}\"}"
+    request_template     = "{\"senderType\": \"$${input.SENDER_TYPE}\", \"fromAddress\" : {\"email\": \"$${input.FROM_EMAIL}\"}, \"toAddresses\" : [{\"email\": \"$${input.TO_EMAIL}\"}], \"subject\" : \"$${input.SUBJECT}\", \"textBody\" : \"$esc.jsonString($${input.BODY})\"}"
     headers = {
       Cache-Control = "no-cache"
       Content-Type  = "application/json"

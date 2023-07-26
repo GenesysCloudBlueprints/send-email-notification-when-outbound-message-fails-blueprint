@@ -1,9 +1,10 @@
 # The Trigger configuration that will kick off the workflow
 resource "genesyscloud_processautomation_trigger" "customer_leave_trigger" {
-  name        = "Customer Leave WebMessage Trigger"
-  description = "When customer leaves a webmessage trigger workflow that will check for unread messages."
-  topic_name  = "v2.detail.events.conversation.{id}.customer.end"
-  enabled     = true
+  name             = "Customer Leave WebMessage Trigger"
+  description      = "When customer leaves a webmessage trigger workflow that will check for unread messages."
+  topic_name       = "v2.detail.events.conversation.{id}.customer.end"
+  enabled          = true
+  delay_by_seconds = var.trigger_delay_in_seconds
   target {
     id   = module.workflow.workflow_id
     type = "Workflow"
@@ -33,5 +34,5 @@ module "workflow" {
 
   outbound_email_address = var.email_address
   email_subject = "Missed Messages"
-  email_body = file("./email_body.txt")
+  email_body = "You missed some messages from Super Company."
 }
