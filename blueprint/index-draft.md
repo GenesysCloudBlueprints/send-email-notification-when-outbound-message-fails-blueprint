@@ -8,11 +8,11 @@ category: 4
 summary: |
   This Genesys Cloud Developer Blueprint provides instructions for deploying a solution which enables businesses to notify their end-users (customers) about undelivered messages sent from the brand (Agent or Bot), while the end-user was not online. You can deploy all the components used in this solution with the Terraform Genesys Cloud CX as Code provider.
 ---
-:::{"alert":"primary","title":"About Genesys Cloud Blueprints","autoCollapse":false} 
+:::{"alert":"primary","title":"About Genesys Cloud Blueprints","autoCollapse":false}
 Genesys Cloud blueprints were built to help you jump-start building an application or integrating with a third-party partner. 
 Blueprints are meant to outline how to build and deploy your solutions, not a production-ready turn-key solution.
- 
-For more details on Genesys Cloud blueprint support and practices 
+
+For more details on Genesys Cloud blueprint support and practices
 please see our Genesys Cloud blueprint [FAQ](https://developer.genesys.cloud/blueprints/faq) sheet.
 :::
 
