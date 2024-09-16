@@ -30,10 +30,11 @@ A Genesys Cloud agent (or bot) is interacting with an end-user using Web Messagi
 
 3. End-user goes offline (browser closed or background on mobile).
 
-4. Agent replies with some messages: these messages will appear with a delivery failure icon in GC Agent UI.
-
-5. Agent disconnects conversation.
-
+4. Agent replies with some messages: these messages will appear with a delivery failure icon in GC Agent UI. 
+It will generate a Delivery Failure.
+5. Process Automation (Triggers) can use the event to start a workflow
+6. The triggered workflow can look for external contact info
+7. and send an email using Agentless
 6. End-user receives a new email from Genesys Cloud informing them about new undelivered messages waiting.
 
 ## Solution components

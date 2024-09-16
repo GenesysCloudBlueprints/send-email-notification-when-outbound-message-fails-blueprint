@@ -2,7 +2,7 @@
 resource "genesyscloud_processautomation_trigger" "customer_leave_trigger" {
   name             = "Customer Leave WebMessage Trigger"
   description      = "When customer leaves a webmessage trigger workflow that will check for unread messages."
-  topic_name       = "v2.detail.events.conversation.{id}.customer.end"
+  topic_name       = "v2.webmessaging.deployments.{id}.undelivered.messages"
   enabled          = true
   delay_by_seconds = var.trigger_delay_in_seconds
   target {
