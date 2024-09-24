@@ -114,7 +114,6 @@ For more information regarding setting up a domain for agentless email notificat
    * `client_id` - The value of your OAuth Client ID using Client Credentials to be used for the data action integration.
    * `client_secret`- The value of your OAuth Client secret using Client Credentials to be used for the data action integration.
    * `email_address` - This email address will be used as the sender of the agentless email notification. Make sure the email domain is configured within Genesys Cloud.
-   * `trigger_delay_in_seconds` - Optional. The delay in seconds after the conversation ends and when the workflow starts checking the conversation for failed-delivery messages. If this variable is omitted, the workflow will start checking as soon as the conversation ends, and send an email if conditions are met. Adding a few seconds will help accomodate any delay in the delivery of outbound messages like bad connectivity, allowing end-users some allowance to read the message.
 
    The following is an example of the dev.auto.tfvars file.
 
@@ -122,7 +121,6 @@ For more information regarding setting up a domain for agentless email notificat
    client_id                = "<client id here>"
    client_secret            = "<client secret here>"
    email_address            = "chat_notifications@support.super-company.com"
-   trigger_delay_in_seconds = 60 # Optional. Valid range: 60 - 900
    ```
 
 2. **Customize Email content**
@@ -168,10 +166,8 @@ After the `terraform apply --auto-approve` command completes, you should see the
 5. Close the end-user's session by closing the browser tab or window.
 6. Send additional messages as the agent to the end-user. The system should detect that the delivery of the message failed.
    ![Failed Message Delivery](images/4-failed-message-delivery.png "Failed Message Delivery")
-7. End the conversation.
-   ![End conversation](images/5-end-conversation.png "End conversation")
-8. Wait for an appropriate amount of time based on the value of the `trigger_delay_in_seconds` variable.
-9. An email should be received by the end-user.
+7. Wait for an approximatly 30s.
+8. An email should be received by the end-user.
    ![Email inbox](images/6-email-received.png "Email inbox")
    ![Email body](images/7-email-body.png "Email body")
 

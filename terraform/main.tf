@@ -1,22 +1,19 @@
 # The Trigger configuration that will kick off the workflow
-resource "genesyscloud_processautomation_trigger" "customer_leave_trigger" {
-  name             = "Customer Leave WebMessage Trigger"
-  description      = "When customer leaves a webmessage trigger workflow that will check for unread messages."
+resource "genesyscloud_processautomation_trigger" "undelivered_webmessages_trigger" {
+  name             = "Failed delivery of webmessages Trigger"
+  description      = "When webmessage fails to be delivered, trigger workflow that will send email notifications."
   topic_name       = "v2.webmessaging.deployments.{id}.undelivered.messages"
   enabled          = true
-  delay_by_seconds = var.trigger_delay_in_seconds
   target {
     id   = module.workflow.workflow_id
     type = "Workflow"
-  }
-  match_criteria = jsonencode([
-    {
-      "jsonPath" : "messageType",
-      "operator" : "Equal",
-      "value" : "WEBMESSAGING"
+    workflow_target_settings {
+      data_format = "Json"
     }
-  ])
+  }
+  match_criteria = ""
 }
+
 
 # GC Integrations and Data Actions configuration
 module "data_actions" {
@@ -29,7 +26,6 @@ module "data_actions" {
 module "workflow" {
   source = "./workflow"
   integration_name = module.data_actions.integration_name
-  get_failed_messages_action_name = module.data_actions.get_failed_messages_action_name
   send_agentless_email_action_name = module.data_actions.send_agentless_email_action_name
 
   outbound_email_address = var.email_address
