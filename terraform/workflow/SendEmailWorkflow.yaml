@@ -79,7 +79,7 @@ workflow:
                                                 FROM_EMAIL:
                                                   exp: "\"{{from_email}}\""
                                                 TO_EMAIL:
-                                                  exp: "State.externalContactResult.{{external_contact_email_type}}"
+                                                  exp: "State.externalContact.{{external_contact_email_type}}"
                                                 SUBJECT:
                                                   exp: "\"{{email_subject}}\""
                                                 BODY:

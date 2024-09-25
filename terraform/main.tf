@@ -11,9 +11,9 @@ resource "genesyscloud_processautomation_trigger" "undelivered_webmessages_trigg
       data_format = "Json"
     }
   }
-  match_criteria = ""
+  match_criteria = jsonencode([])
+  depends_on     = [module.workflow]
 }
-
 
 # GC Integrations and Data Actions configuration
 module "data_actions" {
@@ -31,4 +31,6 @@ module "workflow" {
   outbound_email_address = var.email_address
   email_subject = "Missed Messages"
   email_body = "You missed some messages from Super Company."
+  external_contact_email_type = "personalEmail"
+#   division = "Home" // default is home, change to something that suit your configuration
 }
