@@ -41,9 +41,8 @@ It will generate a Delivery Failure.
 
 * **Genesys Cloud CX** - A suite of Genesys Cloud services for enterprise-grade communications, collaboration, and contact center management. In this solution, you use an Architect workflow, a Genesys Cloud integration, an Email configuration, a Web Messaging deployment, and a Process Automation Trigger.
 * **Web messaging and Messenger** - The Genesys Cloud messaging platform that enables asynchronous conversations and a unified agent and supervisor experience across all Genesys Cloud messaging channels. In this solution, it is required to already have an existing configuration for Web Messaging.
-* **Genesys Cloud Data Actions** - The Genesys Cloud Data Actions integration allows users to invoke the public API through the Genesys Cloud org. In this solution, there will be 2 data actions which will be called inside an Architect Workflow:
-   1. Get Failed Delivery Messages - this Data Action will call the Conversations API and determine if a conversation has any messages with `messageStatus` property equal to `delivery-failed`. This means that a message was sent but was not received by the end-user.
-   2. Send Outbound Email - this Data Action will send an agentless notification email to the provided email address.
+* **Genesys Cloud Data Actions** - The Genesys Cloud Data Actions integration allows users to invoke the public API through the Genesys Cloud org. In this solution, there will be 1 data actions which will be called inside an Architect Workflow:
+  * Send Outbound Email - this Data Action will send an agentless notification email to the provided email address.
 
 * **Architect flows** - A flow in Architect, a drag and drop web-based design tool, dictates how Genesys Cloud handles inbound or outbound interactions. In this solution, a workflow is designed to invoke the data actions required for sending an agentless email notification. This workflow is executed by a Process Automation Trigger.
 * **Process Automation Triggers** - A feature which allows customers to configure a reaction to specific events that occur within Genesys Cloud. In this solution, we will trigger a workflow everytime a customer has disconnected from a Web Messaging interaction.
