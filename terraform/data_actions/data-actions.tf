@@ -6,52 +6,8 @@ module "integration" {
     integration_creds_client_secret = var.client_secret
 }
 
-resource "genesyscloud_integration_action" "get_failed_messages_action" {
-  name                   = "Get Failed Delivery Messages"
-  category               = module.integration.integration_name
-  integration_id         = module.integration.integration_id
-  contract_input = jsonencode({
-    "type" = "object",
-    "required" = [
-      "CONVERSATION_ID"
-    ],
-    "properties" = {
-      "CONVERSATION_ID" = {
-        "type" = "string"
-      }
-    }
-  })
-  contract_output = jsonencode({
-    "type" = "object",
-    "required" = [
-      "FAILED_DELIVERY"
-    ],
-    "properties" = {
-      "FAILED_DELIVERY" = {
-        "type" = "string"
-      }
-    }
-  })
-  config_request {
-    request_url_template = "/api/v2/conversations/$${input.CONVERSATION_ID}"
-    request_type         = "GET"
-    request_template     = "$${input.rawRequest}"
-    headers = {
-      Cache-Control = "no-cache"
-      Content-Type  = "application/x-www-form-urlencoded"
-    }
-  }
-  config_response {
-    translation_map = {
-      FAILED_DELIVERY = "$.participants[?(@.purpose == 'agent')].messages[0].messages[?(@.messageStatus == 'delivery-failed')].messageId"
-    }
-    translation_map_defaults = { }
-    success_template = "{\n \"FAILED_DELIVERY\": $${successTemplateUtils.firstFromArray(\"$${FAILED_DELIVERY}\")}\n}"
-  }
-}
-
 resource "genesyscloud_integration_action" "send_agentless_email_action" {
-  name                   = "Send Agentless Email"
+  name                   = "Send Agentless Email CX"
   category               = module.integration.integration_name
   integration_id         = module.integration.integration_id
   contract_input = jsonencode({

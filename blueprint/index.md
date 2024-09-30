@@ -30,19 +30,19 @@ A Genesys Cloud agent (or bot) is interacting with an end-user using Web Messagi
 
 3. End-user goes offline (browser closed or background on mobile).
 
-4. Agent replies with some messages: these messages will appear with a delivery failure icon in GC Agent UI.
-
-5. Agent disconnects conversation.
-
+4. Agent replies with some messages: these messages will appear with a delivery failure icon in GC Agent UI. 
+It will generate a Delivery Failure.
+5. Process Automation (Triggers) can use the event to start a workflow
+6. The triggered workflow can look for external contact info
+7. and send an email using Agentless
 6. End-user receives a new email from Genesys Cloud informing them about new undelivered messages waiting.
 
 ## Solution components
 
 * **Genesys Cloud CX** - A suite of Genesys Cloud services for enterprise-grade communications, collaboration, and contact center management. In this solution, you use an Architect workflow, a Genesys Cloud integration, an Email configuration, a Web Messaging deployment, and a Process Automation Trigger.
 * **Web messaging and Messenger** - The Genesys Cloud messaging platform that enables asynchronous conversations and a unified agent and supervisor experience across all Genesys Cloud messaging channels. In this solution, it is required to already have an existing configuration for Web Messaging.
-* **Genesys Cloud Data Actions** - The Genesys Cloud Data Actions integration allows users to invoke the public API through the Genesys Cloud org. In this solution, there will be 2 data actions which will be called inside an Architect Workflow:
-   1. Get Failed Delivery Messages - this Data Action will call the Conversations API and determine if a conversation has any messages with `messageStatus` property equal to `delivery-failed`. This means that a message was sent but was not received by the end-user.
-   2. Send Outbound Email - this Data Action will send an agentless notification email to the provided email address.
+* **Genesys Cloud Data Actions** - The Genesys Cloud Data Actions integration allows users to invoke the public API through the Genesys Cloud org. In this solution, there will be 1 data actions which will be called inside an Architect Workflow:
+  * Send Outbound Email - this Data Action will send an agentless notification email to the provided email address.
 
 * **Architect flows** - A flow in Architect, a drag and drop web-based design tool, dictates how Genesys Cloud handles inbound or outbound interactions. In this solution, a workflow is designed to invoke the data actions required for sending an agentless email notification. This workflow is executed by a Process Automation Trigger.
 * **Process Automation Triggers** - A feature which allows customers to configure a reaction to specific events that occur within Genesys Cloud. In this solution, we will trigger a workflow everytime a customer has disconnected from a Web Messaging interaction.
@@ -113,7 +113,6 @@ For more information regarding setting up a domain for agentless email notificat
    * `client_id` - The value of your OAuth Client ID using Client Credentials to be used for the data action integration.
    * `client_secret`- The value of your OAuth Client secret using Client Credentials to be used for the data action integration.
    * `email_address` - This email address will be used as the sender of the agentless email notification. Make sure the email domain is configured within Genesys Cloud.
-   * `trigger_delay_in_seconds` - Optional. The delay in seconds after the conversation ends and when the workflow starts checking the conversation for failed-delivery messages. If this variable is omitted, the workflow will start checking as soon as the conversation ends, and send an email if conditions are met. Adding a few seconds will help accomodate any delay in the delivery of outbound messages like bad connectivity, allowing end-users some allowance to read the message.
 
    The following is an example of the dev.auto.tfvars file.
 
@@ -121,7 +120,6 @@ For more information regarding setting up a domain for agentless email notificat
    client_id                = "<client id here>"
    client_secret            = "<client secret here>"
    email_address            = "chat_notifications@support.super-company.com"
-   trigger_delay_in_seconds = 60 # Optional. Valid range: 60 - 900
    ```
 
 2. **Customize Email content**
@@ -167,10 +165,8 @@ After the `terraform apply --auto-approve` command completes, you should see the
 5. Close the end-user's session by closing the browser tab or window.
 6. Send additional messages as the agent to the end-user. The system should detect that the delivery of the message failed.
    ![Failed Message Delivery](images/4-failed-message-delivery.png "Failed Message Delivery")
-7. End the conversation.
-   ![End conversation](images/5-end-conversation.png "End conversation")
-8. Wait for an appropriate amount of time based on the value of the `trigger_delay_in_seconds` variable.
-9. An email should be received by the end-user.
+7. Wait for an approximatly 30s.
+8. An email should be received by the end-user.
    ![Email inbox](images/6-email-received.png "Email inbox")
    ![Email body](images/7-email-body.png "Email body")
 

@@ -3,11 +3,6 @@ variable "integration_name" {
   description = "The name of the Genesys Cloud Data Actions Integration"
 }
 
-variable "get_failed_messages_action_name" {
-  type        = string
-  description = "The name of the GC Data Action for getting failed messages on a conversation"
-}
-
 variable "send_agentless_email_action_name" {
   type        = string
   description = "The name of the GC Data Action for sending an agentless outbound email"
@@ -32,4 +27,10 @@ variable "external_contact_email_type" {
   type        = string
   description = "Email property of External Contact to send outbound email to. 'personalEmail' or 'workEmail'."
   default     = "personalEmail"
+}
+
+variable "division" {
+  type        = string
+  description = "Division inside the organisation"
+  default     = "Home"
 }
