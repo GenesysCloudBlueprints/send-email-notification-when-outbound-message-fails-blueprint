@@ -2,7 +2,7 @@ terraform {
   required_providers {
     genesyscloud = {
       source = "MyPureCloud/genesyscloud"
-      # version = "1.47.0"
+      version = "1.47.0"
     }
   }
 }
