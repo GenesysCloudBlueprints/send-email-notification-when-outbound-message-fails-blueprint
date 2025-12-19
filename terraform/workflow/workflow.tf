@@ -1,6 +1,5 @@
 resource "genesyscloud_flow" "send_email_workflow" {
   filepath          = "${path.module}/SendEmailWorkflow.yaml"
-  file_content_hash = filesha256("${path.module}/SendEmailWorkflow.yaml")
   substitutions = {
     flow_name                   = "Send Email on Failed WebMessage Workflow"
     gc_data_actions_integration = var.integration_name
